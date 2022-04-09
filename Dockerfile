@@ -14,7 +14,7 @@ RUN apk update && \
             postgresql-client && \
     rm -rf /var/cache/apk/*
 
-ADD bin/backup.sh /backup/run.sh
+ADD bin/run.sh /backup/run.sh
 
 RUN chmod a+x /backup/run.sh
 
