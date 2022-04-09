@@ -17,7 +17,7 @@ ssh -4 \
     -f \
     -L 2342:localhost:${DB_PORT} ${SSH_USERNAME}@${SSH_HOST} -p ${SSH_PORT} sleep 10
 
-PGPASSWORD=${DB_PASSWORD} pg_dump -c -h localhost --port 2342 -U ${DB_USER} ${DB_NAME} -Fc -O -x -f ${OUTPUT_FILE}
+PGPASSWORD=${DB_PASSWORD} pg_dump -c -h localhost --port 2342 -U ${DB_USER} ${DB_NAME} ${PG_OPTIONS} -O -x -f ${OUTPUT_FILE}
 
 gzip -8 $OUTPUT_FILE
 
