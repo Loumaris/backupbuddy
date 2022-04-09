@@ -1,5 +1,9 @@
 # postgresql backup buddy
 
+[![Build and Publish docker](https://github.com/Loumaris/backupbuddy/actions/workflows/docker.yml/badge.svg)](https://github.com/Loumaris/backupbuddy/actions/workflows/docker.yml)
+[![Docker](https://badgen.net/badge/icon/docker?icon=docker&label)]([https://https://docker.com/](https://hub.docker.com/repository/docker/loumaris/backupbuddy))
+
+
 a small docker image which will run a `pg_dump` via ssh tunnel.
 
 ## setup
