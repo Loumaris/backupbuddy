@@ -26,3 +26,7 @@ find $BACKUP_DIR -maxdepth 1 -mtime +$DAYS_TO_KEEP -name "*${FILE_SUFFIX}.gz" -e
 if [ -n "$TEAMS_WEBHOOK_URL" ]; then
   curl -s -H 'Content-Type: application/json' -d "{'text': 'Backup done for **$DB_NAME** on **$FILE**'}" $TEAMS_WEBHOOK_URL > /dev/null
 fi
+
+if [ -n "$UPTIME_ROBOT_URL" ]; then
+  curl -s -H 'Content-Type: application/json' $UPTIME_ROBOT_URL > /dev/null
+fi
