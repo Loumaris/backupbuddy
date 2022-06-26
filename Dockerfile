@@ -11,7 +11,8 @@ RUN apk update && \
     apk add --no-cache \
             curl \
             openssh \
-            postgresql-client && \
+            postgresql-client \
+            ssmtp && \
     rm -rf /var/cache/apk/*
 
 ADD bin/run.sh /backup/run.sh
