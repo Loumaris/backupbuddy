@@ -19,6 +19,12 @@ echo "create ssh tunnel..."
       -o ExitOnForwardFailure=yes \
       -f \
       -L 2342:localhost:${DB_PORT} ${SSH_USERNAME}@${SSH_HOST} -p ${SSH_PORT} sleep 10
+
+  echo "dump database ${DB_NAME}..."
+  PGPASSWORD=${DB_PASSWORD} pg_dump -c -h localhost --port 2342 -U ${DB_USER} ${DB_NAME} ${PG_OPTIONS} -O -x -f ${OUTPUT_FILE}
+else
+  echo "dump database ${DB_NAME}..."
+  PGPASSWORD=${DB_PASSWORD} pg_dump -c -h ${DB_HOST} --port ${DB_PORT} -U ${DB_USER} ${DB_NAME} ${PG_OPTIONS} -O -x -f ${OUTPUT_FILE}
 fi
 
 echo "dump database ${DB_NAME}..."
