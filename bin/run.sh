@@ -27,9 +27,6 @@ else
   PGPASSWORD=${DB_PASSWORD} pg_dump -c -h ${DB_HOST} --port ${DB_PORT} -U ${DB_USER} ${DB_NAME} ${PG_OPTIONS} -O -x -f ${OUTPUT_FILE}
 fi
 
-echo "dump database ${DB_NAME}..."
-PGPASSWORD=${DB_PASSWORD} pg_dump -c -h localhost --port 2342 -U ${DB_USER} ${DB_NAME} ${PG_OPTIONS} -O -x -f ${OUTPUT_FILE}
-
 RESULT_PG_DUMP=$?
 RESULT_BACKUP_DIR=0
 
