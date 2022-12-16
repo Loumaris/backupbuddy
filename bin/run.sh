@@ -58,9 +58,10 @@ if [ -n "$DISCORD_WEBHOOK_URL" ]; then
           "name": "Backup Buddy",
           "icon_url": "https://i.imgur.com/V8ZjaMa.jpg"
         },
+        "title": "' $DB_NAME '",
         "description": ":red_circle: ERROR - backup database"
       }]
-    }' $DISCORD_WEBHOOK_URL
+    }' $DISCORD_WEBHOOK_URL  > /dev/null
   else
     curl -H "Content-Type: application/json" -d '{
       "embeds": [{
@@ -68,9 +69,10 @@ if [ -n "$DISCORD_WEBHOOK_URL" ]; then
           "name": "Backup Buddy",
           "icon_url": "https://i.imgur.com/V8ZjaMa.jpg"
         },
+        "title": "' $DB_NAME '",
         "description": ":green_heart: SUCCESS - backup database"
       }]
-    }' $DISCORD_WEBHOOK_URL
+    }' $DISCORD_WEBHOOK_URL  > /dev/null
   fi
 
 fi
