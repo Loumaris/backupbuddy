@@ -47,6 +47,32 @@ if [ -n "$TEAMS_WEBHOOK_URL" ]; then
   curl -s -H 'Content-Type: application/json' -d "{'text': 'Backup done for **$DB_NAME** on **$FILE**'}" $TEAMS_WEBHOOK_URL > /dev/null
 fi
 
+if [ -n "$DISCORD_WEBHOOK_URL" ]; then
+  echo "ping discord..."
+  if [ $RESULT_PG_DUMP -gt 0 ]
+  then
+    SUBJECT="ERROR - backup database ${DB_NAME}"
+    COLOR="14177041"
+  else
+    SUBJECT="SUCCESS - backup database ${DB_NAME}"
+    COLOR="320820"
+  fi
+
+  curl -H "Content-Type: application/json" -d "{
+  "embeds": [
+    {
+      'title': 'backupbuddy',
+      'color': '1127128'
+    },
+    {
+      'title': '${SUBJECT}',
+      'color': '${COLOR}'
+    }
+  ]
+}" $DISCORD_WEBHOOK_URL
+
+fi
+
 if [ -n "$UPTIME_ROBOT_URL" ]; then
   echo "ping uptime robot..."
   curl -s -H 'Content-Type: application/json' $UPTIME_ROBOT_URL > /dev/null
