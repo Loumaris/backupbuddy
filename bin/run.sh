@@ -58,18 +58,17 @@ if [ -n "$DISCORD_WEBHOOK_URL" ]; then
     COLOR="320820"
   fi
 
-  curl -H "Content-Type: application/json" -d "{
-  'embeds': [
-    {
-      'title': 'backupbuddy',
-      'color': '1127128'
+  curl -H "Content-Type: application/json" -d '{
+  "embeds": [
+    "author": {
+      "name": "Backup Buddy",
     },
     {
-      'title': '${SUBJECT}',
-      'color': '${COLOR}'
+      "title": "' + ${SUBJECT} + '",
+      "color": "' + ${COLOR} + '"
     }
   ]
-}" $DISCORD_WEBHOOK_URL
+}' $DISCORD_WEBHOOK_URL
 
 fi
 
