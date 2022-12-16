@@ -6,8 +6,9 @@ source /backup/config/config.env
 
 FILE=`date +"%Y-%m-%d-%H_%M"`
 
-OUTPUT_FILE=${BACKUP_DIR}/${FILE}_${DB_NAME}.psql
+OUTPUT_FILE=${BACKUP_DIR}/${FILE}_${DB_NAME}
 OUTPUT_TAR_FILE=${BACKUP_DIR}/${FILE}_data.tar.gz
+PARALLEL_DUMP_JOBS="${PG_PARALLEL_DUMP_JOBS:=2}"  # If variable not set or null, set it to default.
 
 if [ -n "$SSH_HOST" ]; then
 echo "create ssh tunnel..."
@@ -21,16 +22,16 @@ echo "create ssh tunnel..."
       -L 2342:localhost:${DB_PORT} ${SSH_USERNAME}@${SSH_HOST} -p ${SSH_PORT} sleep 10
 
   echo "dump database ${DB_NAME}..."
-  PGPASSWORD=${DB_PASSWORD} pg_dump -c -h localhost --port 2342 -U ${DB_USER} ${DB_NAME} ${PG_OPTIONS} -O -x -f ${OUTPUT_FILE}
+  PGPASSWORD=${DB_PASSWORD} pg_dump -Z0 -j ${PARALLEL_DUMP_JOBS} -Fd -c -h localhost --port 2342 -U ${DB_USER} ${DB_NAME} ${PG_OPTIONS} -O -x -f ${OUTPUT_FILE}
 else
   echo "dump database ${DB_NAME}..."
-  PGPASSWORD=${DB_PASSWORD} pg_dump -c -h ${DB_HOST} --port ${DB_PORT} -U ${DB_USER} ${DB_NAME} ${PG_OPTIONS} -O -x -f ${OUTPUT_FILE}
+  PGPASSWORD=${DB_PASSWORD} pg_dump -Z0 -j ${PARALLEL_DUMP_JOBS} -Fd -c -h ${DB_HOST} --port ${DB_PORT} -U ${DB_USER} ${DB_NAME} ${PG_OPTIONS} -O -x -f ${OUTPUT_FILE}
 fi
+
+tar -cf - ${OUTPUT_FILE} | pigz > ${OUTPUT_FILE}.tar.gz
 
 RESULT_PG_DUMP=$?
 RESULT_BACKUP_DIR=0
-
-gzip -8 $OUTPUT_FILE
 
 if [ -n "$BACKUP_REMOTE_DIRECTORY" ]; then
   echo "backup directory ${BACKUP_REMOTE_DIRECTORY}..."

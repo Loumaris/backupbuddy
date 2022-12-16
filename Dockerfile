@@ -12,6 +12,7 @@ RUN apk update && \
             curl \
             openssh \
             postgresql-client \
+            pzip \
             ssmtp && \
     rm -rf /var/cache/apk/*
 
