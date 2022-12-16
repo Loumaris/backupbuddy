@@ -29,6 +29,7 @@ else
 fi
 
 tar -cf - ${OUTPUT_FILE} | pigz > ${OUTPUT_FILE}.tar.gz
+rm -rf ${OUTPUT_FILE}
 
 RESULT_PG_DUMP=$?
 RESULT_BACKUP_DIR=0
