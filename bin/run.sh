@@ -52,27 +52,33 @@ if [ -n "$DISCORD_WEBHOOK_URL" ]; then
   echo "ping discord..."
   if [ $RESULT_PG_DUMP -gt 0 ]
   then
-    curl -H "Content-Type: application/json" -d '{
+    curl $DISCORD_WEBHOOK_URL -H "Content-Type: application/json" --data@<(cat <<EOF
+{
       "embeds": [{
         "author": {
-          "name": "Backup Buddy",
+          "name": "Backup Buddy for $DB_USER",
           "icon_url": "https://i.imgur.com/V8ZjaMa.jpg"
         },
-        "title": "' $DB_NAME '",
+        "title": "$DB_NAME",
         "description": ":red_circle: ERROR - backup database"
       }]
-    }' $DISCORD_WEBHOOK_URL  > /dev/null
+    }
+EOF
+) > /dev/null
   else
-    curl -H "Content-Type: application/json" -d '{
+     curl $DISCORD_WEBHOOK_URL -H "Content-Type: application/json" --data@<(cat <<EOF
+{
       "embeds": [{
         "author": {
-          "name": "Backup Buddy",
+          "name": "Backup Buddy for $DB_USER",
           "icon_url": "https://i.imgur.com/V8ZjaMa.jpg"
         },
-        "title": "' $DB_NAME '",
+        "title": "$DB_NAME",
         "description": ":green_heart: SUCCESS - backup database"
       }]
-    }' $DISCORD_WEBHOOK_URL  > /dev/null
+    }
+EOF
+) > /dev/null
   fi
 
 fi
