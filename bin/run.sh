@@ -59,7 +59,7 @@ if [ -n "$DISCORD_WEBHOOK_URL" ]; then
   fi
 
   curl -H "Content-Type: application/json" -d "{
-  "embeds": [
+  'embeds': [
     {
       'title': 'backupbuddy',
       'color': '1127128'
