@@ -13,6 +13,7 @@ RUN apk update && \
             openssh \
             postgresql-client \
             pigz \
+            tar \
             ssmtp && \
     rm -rf /var/cache/apk/*
 
