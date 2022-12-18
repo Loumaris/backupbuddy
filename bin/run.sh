@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+STARTTIME=`date +%s`
+
 echo "source env settings..."
 source /backup/config/config.env
 
@@ -34,6 +36,11 @@ rm -rf ${OUTPUT_FILE}
 RESULT_PG_DUMP=$?
 RESULT_BACKUP_DIR=0
 
+ENDTIME=`date +%s`
+
+RUNTIME=$((ENDTIME-STARTTIME))
+
+
 if [ -n "$BACKUP_REMOTE_DIRECTORY" ]; then
   echo "backup directory ${BACKUP_REMOTE_DIRECTORY}..."
   ssh  -i /backup/config/id_rsa ${SSH_USERNAME}@${SSH_HOST} -p ${SSH_PORT} tar czf - ${BACKUP_REMOTE_DIRECTORY} > ${OUTPUT_TAR_FILE}
@@ -60,7 +67,7 @@ if [ -n "$DISCORD_WEBHOOK_URL" ]; then
           "icon_url": "https://i.imgur.com/V8ZjaMa.jpg"
         },
         "title": "${DB_NAME}",
-        "description": ":red_circle: ERROR - backup database"
+        "description": ":red_circle: ERROR - backup database after ${RUNTIME} seconds"
       }]
     }
 EOF
@@ -74,7 +81,7 @@ EOF
           "icon_url": "https://i.imgur.com/V8ZjaMa.jpg"
         },
         "title": "${DB_NAME}",
-        "description": ":green_heart: SUCCESS - backup database"
+        "description": ":green_heart: SUCCESS - backup database after ${RUNTIME} seconds"
       }]
     }
 EOF
