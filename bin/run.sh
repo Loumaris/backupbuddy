@@ -28,7 +28,7 @@ else
   PGPASSWORD=${DB_PASSWORD} pg_dump -Z0 -j ${PARALLEL_DUMP_JOBS} -Fd -c -h ${DB_HOST} --port ${DB_PORT} -U ${DB_USER} ${DB_NAME} ${PG_OPTIONS} -O -x -f ${OUTPUT_FILE}
 fi
 
-tar -cf - ${OUTPUT_FILE} | pigz > ${OUTPUT_FILE}.tar.gz
+tar --use-compress-program="pigz -k --fast " -cf ${OUTPUT_FILE}.tar.gz ${OUTPUT_FILE}
 rm -rf ${OUTPUT_FILE}
 
 RESULT_PG_DUMP=$?
