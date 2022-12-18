@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/ash
 set -e
 
 STARTTIME=`date +%s`
